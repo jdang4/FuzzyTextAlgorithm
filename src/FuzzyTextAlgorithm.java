@@ -14,6 +14,12 @@ public class FuzzyTextAlgorithm {
         char[][]LevenshteinDistanceArray = Initialize_Levenshtein_Distance(string1_new, string2_new);
         printArray(LevenshteinDistanceArray, string1_new, string2_new);
 
+        LevenshteinDistanceArray = LevenshteinDistance_Algorithm(LevenshteinDistanceArray, string1, string2);
+
+        System.out.println(" ");
+        System.out.println(" ");
+
+        printArray(LevenshteinDistanceArray, string1_new, string2_new);
     }
 
     public static String addingSpaces(String s1, int numOfSpaces) {
@@ -102,7 +108,7 @@ public class FuzzyTextAlgorithm {
 
         int minimumCost = costs[0];
 
-        for (int i = 1; i <= costs.length; i++) {
+        for (int i = 1; i < costs.length; i++) {
             if (costs[i] < minimumCost) {
                 minimumCost = costs[i];
             }
@@ -120,7 +126,7 @@ public class FuzzyTextAlgorithm {
     }
 
 
-    public static int LevenshteinDistance_Algorithm(char[][] array, String s1, String s2) {
+    public static char[][] LevenshteinDistance_Algorithm(char[][] array, String s1, String s2) {
 
         // need to call a function to remove spaces
         char[] s1Array = s1.toCharArray();
@@ -131,9 +137,9 @@ public class FuzzyTextAlgorithm {
 
         int deletion, insertion, substitution, minimumCost;
 
-        for (int i = 1; i <= s1.length() - 1; i++, stringIndex_s1++) {
+        for (int i = 1; i <= s1.length() || i < stringIndex_s1; i++, stringIndex_s1++) {
 
-            for (int j = 1; j <= s2.length() - 1; j++, stringIndex_s2++) {
+            for (int j = 1; j <= s2.length() || j < stringIndex_s2; j++, stringIndex_s2++) {
 
                 int substitutionCost = 1;
 
@@ -154,10 +160,16 @@ public class FuzzyTextAlgorithm {
 
                 minimumCost = getMinimumValue(costArray);
 
+                char updatedCost = (char) (48 + minimumCost);
+
+                array[i][j] = updatedCost;
 
             }
+
+            stringIndex_s2 = 0;
         }
 
+        return array;
     }
 
 }
